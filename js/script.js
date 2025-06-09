@@ -68,15 +68,16 @@ answerFormEl.addEventListener("submit", (e) => {
   for (let i = 0; i < memoryGame.length; i++) {
     if (userNumbers.includes(memoryGame[i])) {
       pointCounter++;
-      //stampo in console il punteggio dell'utente
-      console.log(`l'utente ha ricordato ${pointCounter} numeri!`);
-      //* modifico il contenuto del p #message
-      messageEl.innerText = `Hai ricordato ${pointCounter} numeri!`;
-    }else if (userNumbers[i]!== inputsEl[i]) {
-        //* aggiunta condizione di debug nel caso di inserimento di numeri sbagliati
-    messageEl.innerText = "Hai sbagliato tutti i numeri!"
+    }
   }
-  } 
+  if (pointCounter > 0) {
+    console.log(`l'utente ha ricordato ${pointCounter} numeri!`);
+    //* modifico il contenuto del p #message
+    messageEl.innerText = `Hai ricordato ${pointCounter} numeri!`;
+  } else {
+    //* aggiunto messaggio nel caso di inserimento solo di numeri sbagliati
+    messageEl.innerText = "Hai sbagliato tutti i numeri!";
+  }
 });
 
 //! BONUS: validazione dei numeri inseriti
