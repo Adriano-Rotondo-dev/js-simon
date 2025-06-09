@@ -13,9 +13,11 @@ function rng() {
 //* salvo la funzione in una costante
 const memoryGame = rng();
 //console.log(memoryGame)//
-//* salvo in un DOM node il div numbers-list e il div countdown
+//* salvo in un DOM node gli elementi dell'html sui cui mi interessa lavorare
 const numberListEl = document.getElementById("numbers-list");
 const countdownEl = document.getElementById("countdown");
+const answerFormEl = document.getElementById("answers-form");
+const pEl = document.getElementById("instructions")
 
 //todo: setto un timer di 30 secondi a partire dalla visualizzazione in pagina dei numeri
 
@@ -26,6 +28,7 @@ const startGame = setTimeout(() => {
   for (let i = 0; i < memoryGame.length; i++) {
     listItems += `<li>${memoryGame[i]}</li>`;
   }
+  alert("Avrai 30 secondi di tempo \nClicca su Ok per iniziare");
   //*verifico il funzionamento del timer con un log
   //console.log("dopo 5 secondi mostro " + memoryGame)
   numberListEl.innerHTML = listItems;
@@ -33,9 +36,15 @@ const startGame = setTimeout(() => {
 
 //*creo un timer che dopo 30 secondi faccia sparire i numeri
 const clockTimer = setTimeout(() => {
+  alert("Tempo Scaduto! \nInserisci i numeri e testa la tua memoria!");
   //*verifico il funzionamento del timer con un log
   //console.log("Il timer è iniziato. 30 secondi alla rimozione dei numeri");
   numberListEl.innerHTML = "";
+  //cambio le istruzioni in pagina
+  pEl.innerText = "Prova a ricordare i numeri visualizzati! L'ordine non è importante"
+  //rimuovo il display:none al form allo scadere dei 30 secondi
+  answerFormEl.classList.remove("d-none");
+
 }, 30000);
 
 // todo: creo 5 imput per l'utente (un form), nei quali inserire, senza ordine, 5 numeri
