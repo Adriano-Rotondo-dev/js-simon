@@ -17,21 +17,24 @@ const memoryGame = rng();
 const numberListEl = document.getElementById("numbers-list");
 const countdownEl = document.getElementById("countdown");
 const answerFormEl = document.getElementById("answers-form");
-const pEl = document.getElementById("instructions")
+const instructionsEl = document.getElementById("instructions");
+const messageEl = document.getElementById("message");
+const inputGroupEl = document.getElementById("input-group");
+const inputsEl = inputGroupEl.querySelectorAll("input");
 
 //todo: setto un timer di 30 secondi a partire dalla visualizzazione in pagina dei numeri
 
 //* creo un timer per far comparire i numeri in pagina dopo 5 secondi
 const startGame = setTimeout(() => {
   //*creo una stringa in cui ciclare gli elementi dell'array per mostrarli in pagina
-  let listItems = "";
+  let numberString = "";
   for (let i = 0; i < memoryGame.length; i++) {
-    listItems += `<li>${memoryGame[i]}</li>`;
+    numberString += `<li>${memoryGame[i]}</li>`;
   }
-  alert("Avrai 30 secondi di tempo \nClicca su Ok per iniziare");
+  alert("Avrai 30 secondi di tempo \nClicca su Ok o premi invio per iniziare");
   //*verifico il funzionamento del timer con un log
   //console.log("dopo 5 secondi mostro " + memoryGame)
-  numberListEl.innerHTML = listItems;
+  numberListEl.innerHTML = numberString;
 }, 5000);
 
 //*creo un timer che dopo 30 secondi faccia sparire i numeri
@@ -41,21 +44,43 @@ const clockTimer = setTimeout(() => {
   //console.log("Il timer è iniziato. 30 secondi alla rimozione dei numeri");
   numberListEl.innerHTML = "";
   //cambio le istruzioni in pagina
-  pEl.innerText = "Prova a ricordare i numeri visualizzati! L'ordine non è importante"
+  instructionsEl.innerText =
+    "Prova a ricordare i numeri visualizzati! L'ordine non è importante";
   //rimuovo il display:none al form allo scadere dei 30 secondi
   answerFormEl.classList.remove("d-none");
-
 }, 30000);
-
-// todo: creo 5 imput per l'utente (un form), nei quali inserire, senza ordine, 5 numeri
-//* creo un array vuoto nel quale pushare i 5 numeri inseriti dall'utente
 
 // todo: il software confronta l'array iniziale e il nuovo array
 // todo: il software verifica quanti e quali numeri sono stati inseriti correttamente
 //! non importa indovinarli tutti per vincere, aumenta il punteggio
+//* creo un event Listener per rimuovere il caricamento della pagina e paragonare i numeri dello user al memoryGame
+answerFormEl.addEventListener("submit", (e) => {
+  e.preventDefault();
+  //* creo il let pointCounter per assegnare un punteggio all'utente
+  let pointCounter = 0;
+  //* creo un array vuoto nel quale pushare i singoli value di inputsEl salvata in precedenza
+  const userNumbers = [];
+  //* inizializzo il ciclo for per pushare i numeri dentro userNumbers
+  for (let i = 0; i < inputsEl.length; i++) {
+    userNumbers.push(Number(inputsEl[i].value));
+  }
+  //* inizializzo un ciclo for per verificare quanti numeri dell'array userNumbers sono presenti anche in memoryGame
+  for (let i = 0; i < memoryGame.length; i++) {
+    if (userNumbers.includes(memoryGame[i])) {
+      pointCounter++;
+      //stampo in console il punteggio dell'utente
+      console.log(`l'utente ha ricordato ${pointCounter} numeri!`);
+      //* modifico il contenuto del p #message
+      messageEl.innerText = `Hai ricordato ${pointCounter} numeri!`;
+    }else if (userNumbers[i]!== inputsEl[i]) {
+        //* aggiunta condizione di debug nel caso di inserimento di numeri sbagliati
+    messageEl.innerText = "Hai sbagliato tutti i numeri!"
+  }
+  } 
+});
 
 //! BONUS: validazione dei numeri inseriti
 /* 
     se si mettono due numeri uguali o si inserisce qualcosa di diverso da un numero,
-    il softwre blocca l'utente
+    il software blocca l'utente
 */
