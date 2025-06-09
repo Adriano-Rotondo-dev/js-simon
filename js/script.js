@@ -71,7 +71,7 @@ answerFormEl.addEventListener("submit", (e) => {
     }
   }
   if (pointCounter > 0) {
-    console.log(`l'utente ha ricordato ${pointCounter} numeri!`);
+   // console.log(`l'utente ha ricordato ${pointCounter} numeri!`);
     //* modifico il contenuto del p #message
     messageEl.innerText = `Hai ricordato ${pointCounter} numeri!`;
   } else {
